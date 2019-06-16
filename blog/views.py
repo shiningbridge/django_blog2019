@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from blog.models import Post
 
 # Create your views here.
 
@@ -21,7 +22,7 @@ myposts = [
 
 def home(request):
     context = {
-        'posts': myposts     ## the key 'posts'可以做html里的变量用'.' 语法调用
+        'posts': Post.objects.all()     ## 用database拉。
     }
     return render(request, 'blog/home.html', context)
 
