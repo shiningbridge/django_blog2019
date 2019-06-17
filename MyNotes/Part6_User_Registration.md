@@ -1,3 +1,32 @@
+## 第六部分 User Registration
+
+建立另一个APP
+
+第一步： 建立新APP，叫它users，并**更新**settings.py
+`$ python manage.py startapp users`
+
+in settings.py:
+```python
+# Application definition
+
+INSTALLED_APPS = [
+    'blog.apps.BlogConfig',     ## 每次加入新APP这里要更新一下的。。。结构是<APP>.apps.<CLASS>
+    'user.apps.UsersConfig',    ## 其实，结构就是，model（class） 的路径。在user文件夹下apps.py里的UsersConfig类。
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+```
+
+* views.py
+加入form。。。和确认按钮，等。。
+
+* urls.py
+加入url链接。 可以从project的urls.py 入手改。。。
+```python
 """django_project URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -19,10 +48,14 @@ from users import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('register/', user_views.register, name='注册'),
-    # path('blog/', include('blog.urls')),    
+    path('register/', user_views.register, name='register'),
+    path('blog/', include('blog.urls')),    
     ## 先到project 目录的urls.py文件match 第一个url的route，剥离掉，进入下一层。
     ## 这里是指向了 ‘blog.urls’。。。
     ## 放空string，就是啥也不用填就直接redirect。
     path('', include('blog.urls')),    
+
 ]
+```
+
+

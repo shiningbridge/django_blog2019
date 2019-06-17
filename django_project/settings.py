@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',     ## 每次加入新APP这里要更新一下的。。。结构是<APP>.apps.<CLASS>
+    'users.apps.UsersConfig',   ## 其实，结构就是，model（class） 的路径。在users文件夹下apps.py里的UsersConfig类。
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
