@@ -123,3 +123,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'     ## 小工具，让form更好看。更可控。
+
+# login redirect
+LOGIN_REDIRECT_URL = 'blog-home'
+LOGIN_URL = 'login'
