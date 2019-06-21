@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 
 # Create your views here.
 def register(request):
@@ -16,12 +16,24 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
 
-@login_required ## decoration,加入条件
+@login_required ## decoration,加入条件，如果不满足，走另一条路，这里会跳转到login
 def profile(request):
-    return render(request, 'users/profile.html')
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm( request.POST, 
+                                    request.FILES, 
+                                    instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request,f'Profile has been updated!')
+            return redirect('profile')    ## 直接跳转。
+    else:
+        u_form = UserUpdateForm(instance=request.user)  ## 自动填入当前的User，或者Profile的内容
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+    }
 
-# messages.debug
-# messages.info
-# messages.success
-# messages.warning
-# messages.error
+    return render(request, 'users/profile.html', context)

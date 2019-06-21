@@ -9,6 +9,19 @@
           <p class="text-secondary">{{ user.email }}</p>
         </div>
       </div>
-      <!-- FORM HERE -->
+      <!-- 用POST方法获取form的内容呀。 -->
+      <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}                <!-- csrf token 增加安全性用的。。。 -->
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Profile info</legend>
+              <!--  
+              更进一步，可以用pipe ’|‘ 把crispy_form功能加进来-->
+              {{ u_form | crispy }}
+              {{ p_form | crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-info" type="submit">Update</button>
+          </div>
+      </form>
     </div>
 {% endblock content %}
