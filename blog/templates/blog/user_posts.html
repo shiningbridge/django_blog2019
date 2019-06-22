@@ -1,24 +1,10 @@
-<!--  /*
- * Created Date: Saturday June 15th 2019
- * Author: Kangqiao
- * -----
- * Last Modified: 2019-06-16 00:07:37
- * Modified By: the developer formerly known as Kangqiao at <zhaokangqiao@gmail.com>
- * -----
- * Copyright (c) 2019 NanFei
- * -----
- * HISTORY:
- * Date      	By	Comments
- * ----------	---	---------------------------------------------------------
- * 2019-06-16	KQ	
- */ -->
 
 {% extends "blog/base.html" %}  
 <!--前边不能出现其他code block. 例如{% comment %} {% endcomment %} 否则
 <ExtendsNode: extends "blog/base.html"> must be the first tag in the template. -->
 
 {% block content %}
-    {% comment %} <h1>Blog home!</h1> {% endcomment %}
+    <h1 class='mb-3'>Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>   <!-- 总文章数。-->
     {% for post in posts %}
       <article class="media content-section">
         <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">

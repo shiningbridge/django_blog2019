@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 # from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.views.generic import (
     ListView,
     DetailView,
@@ -23,6 +24,7 @@ class PostListView(ListView):
     template_name = 'blog/home.html'    # 如果不是默认值，我们必须explicitly指定。默认是这么命名的，`<app>/<model>_<viewtype>.html`
     context_object_name = 'posts'       # 一样，如果不是默认值，我们必须explicitly指定。
     ordering = ['-date_posted']
+    paginate_by = 5                     # pagination 就是这么简单。
 
 
 class PostDetailView(DetailView):
@@ -53,6 +55,18 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == post.author:
             return True
         return False
+
+
+class UserPostListView(ListView):
+    model = Post
+    template_name = 'blog/user_posts.html'    # 如果不是默认值，我们必须explicitly指定。默认是这么命名的，`<app>/<model>_<viewtype>.html`
+    context_object_name = 'posts'       # 一样，如果不是默认值，我们必须explicitly指定。
+    # ordering = ['-date_posted']       ## 可以在get_query_set 返回时候order一下。
+    paginate_by = 5                     # pagination 就是这么简单。
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
