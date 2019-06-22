@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <!-- 用POST方法获取form的内容呀。 -->
+        <form method="POST">
+            {% csrf_token %}                <!-- csrf token 增加安全性用的。。。 -->
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Blog 条目</legend>
+                <!-- {{ form.as_p }}      .as_p 可以让格式好看一点， as paragraph。。。 
+                更进一步，可以用pipe ’|‘ 把crispy_form功能加进来-->
+                {{ form | crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Post</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
